@@ -2,6 +2,7 @@ package com.matheusthomaz.libraryapi.api.resourse;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.matheusthomaz.libraryapi.api.dto.BookDTO;
+import com.matheusthomaz.libraryapi.api.resource.BookController;
 import com.matheusthomaz.libraryapi.exception.BusimessException;
 import com.matheusthomaz.libraryapi.model.entity.Book;
 import com.matheusthomaz.libraryapi.service.BookService;
@@ -31,7 +32,7 @@ import java.util.Optional;
 
 @ExtendWith(SpringExtension.class)
 @ActiveProfiles("test")
-@WebMvcTest
+@WebMvcTest(controllers = BookController.class)
 @AutoConfigureMockMvc
 public class BookControllerTest {
 
