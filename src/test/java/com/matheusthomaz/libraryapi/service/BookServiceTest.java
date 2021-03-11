@@ -4,6 +4,7 @@ import com.matheusthomaz.libraryapi.exception.BusimessException;
 import com.matheusthomaz.libraryapi.model.entity.Book;
 import com.matheusthomaz.libraryapi.model.repository.BookRepository;
 import com.matheusthomaz.libraryapi.service.Imp.BookServiceImp;
+import org.assertj.core.api.Assert;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -171,6 +172,22 @@ public class BookServiceTest {
         Assertions.assertThat(result.getPageable().getPageNumber()).isEqualTo(0);
         Assertions.assertThat(result.getPageable().getPageSize()).isEqualTo(10);
 
+
+    }
+
+    @Test
+    @DisplayName("Deve obter um livro pelo isbn")
+    public void getBookByIsbnTest(){
+        String isbn = "123";
+        Mockito.when(repository.findByIsbn(isbn)).thenReturn(Optional.of(Book.builder().id(1L).isbn(isbn).build()));
+
+        Optional<Book> book = service.getBookByIsbn(isbn);
+
+        Assertions.assertThat(book.isPresent()).isTrue();
+        Assertions.assertThat(book.get().getId()).isEqualTo(1L);
+        Assertions.assertThat(book.get().getIsbn()).isEqualTo(isbn);
+
+        Mockito.verify(repository, Mockito.times(1)).findByIsbn(isbn);
 
     }
 
