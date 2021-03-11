@@ -1,8 +1,6 @@
 package com.matheusthomaz.libraryapi.api.resource;
 
 import com.matheusthomaz.libraryapi.api.dto.BookDTO;
-import com.matheusthomaz.libraryapi.exception.BusimessException;
-import com.matheusthomaz.libraryapi.api.exceptions.ApiErrors;
 import com.matheusthomaz.libraryapi.model.entity.Book;
 import com.matheusthomaz.libraryapi.service.BookService;
 import org.modelmapper.ModelMapper;
@@ -10,8 +8,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -89,19 +85,5 @@ public class BookController {
 
     }
 
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ApiErrors handleValidationException(MethodArgumentNotValidException ex){
-        BindingResult bindingResult = ex.getBindingResult();
 
-        return new ApiErrors(bindingResult);
-
-    }
-
-    @ExceptionHandler(BusimessException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ApiErrors handleBusimessException(BusimessException ex){
-        return new ApiErrors(ex);
-
-    }
 }
