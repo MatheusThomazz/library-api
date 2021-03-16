@@ -50,7 +50,7 @@ public class BookControllerTest {
 
         //montando o json
         BookDTO dto = createNewBook();
-        Book savedBook = Book.builder().id(10l).author("Arthur").title("As aventuras").isbn("123").build();
+        Book savedBook = Book.builder().id(10L).author("Arthur").title("As aventuras").isbn("123").build();
 
         BDDMockito.given(service.save(Mockito.any(Book.class))).willReturn(savedBook);
         String json = new ObjectMapper().writeValueAsString(dto);
@@ -124,7 +124,7 @@ public class BookControllerTest {
     @DisplayName("Deve obter informaçoes de um livro")
     public void getDetailsTest() throws Exception{
 
-        Long id = 1l;
+        Long id = 1L;
 
         Book book = Book.builder()
                 .id(id)
@@ -168,7 +168,7 @@ public class BookControllerTest {
     @DisplayName("Deve deletar um livro")
     public void deleteBookTest()throws Exception{
 
-        BDDMockito.given(service.getById(Mockito.anyLong())).willReturn(Optional.of(Book.builder().id(1l).build()));
+        BDDMockito.given(service.getById(Mockito.anyLong())).willReturn(Optional.of(Book.builder().id(1L).build()));
 
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders
                 .delete(BOOK_API.concat("/" + 1));
@@ -196,7 +196,7 @@ public class BookControllerTest {
     @DisplayName("Deve atualizar um livro")
     public void updateBookTest()throws Exception{
 
-        Long id = 1l;
+        Long id = 1L;
         String json = new ObjectMapper().writeValueAsString(createNewBook());
 
         Book upadetingBook = Book.builder().author("some autor").title("some title").isbn("321").build();
@@ -247,7 +247,7 @@ public class BookControllerTest {
     @DisplayName("Deve filtrar livros")
     public void findBookTest() throws Exception{
 
-        Long id = 1l;
+        Long id = 1L;
         Book book = Book.builder()
                 .id(id)
                 .title(createNewBook().getTitle())
@@ -270,7 +270,6 @@ public class BookControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("pageable.pageSize").value(100))
                 .andExpect(MockMvcResultMatchers.jsonPath("pageable.pageNumber").value(0));
     }
-
 
     private BookDTO createNewBook() {
         return BookDTO.builder().author("Arthur").title("As aventuras").isbn("123").build();

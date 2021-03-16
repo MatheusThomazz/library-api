@@ -2,6 +2,7 @@ package com.matheusthomaz.libraryapi.api.resourse;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.matheusthomaz.libraryapi.api.dto.LoanDTO;
+import com.matheusthomaz.libraryapi.api.dto.ReturnedLoanDTO;
 import com.matheusthomaz.libraryapi.exception.BusimessException;
 import com.matheusthomaz.libraryapi.model.entity.Loan;
 import com.matheusthomaz.libraryapi.api.resource.LoanController;
@@ -127,4 +128,29 @@ public class LoanControllerTest {
 
 
     }
+
+
+    @Test
+    @DisplayName("Deve retornar um livro")
+    public void returnBookTest() throws Exception{
+
+        ReturnedLoanDTO dto = ReturnedLoanDTO.builder().returned(true).build();
+        Loan loan = Loan.builder().id(1L).build();
+        BDDMockito.given(loanService.getById(Mockito.anyLong()))
+                .willReturn(Optional.of(loan));
+
+
+        String json = new ObjectMapper().writeValueAsString(dto);
+
+        mvc.perform(
+                MockMvcRequestBuilders.patch(LOAN_API.concat("/1"))
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(json)
+
+        ).andExpect(MockMvcResultMatchers.status().isOk());
+
+        Mockito.verify(loanService, Mockito.times(1)).update(loan);
+    }
+
 }
