@@ -1,5 +1,6 @@
 package com.matheusthomaz.libraryapi.service;
 
+import com.matheusthomaz.libraryapi.exception.BusimessException;
 import com.matheusthomaz.libraryapi.model.entity.Book;
 import com.matheusthomaz.libraryapi.model.entity.Loan;
 import com.matheusthomaz.libraryapi.model.repository.LoanRepository;
@@ -49,6 +50,8 @@ public class LoanServiceTest {
                 .loanDate(LocalDate.now())
                 .build();
 
+        Mockito.when(repository.existsByBookAndNotReturned(book)).thenReturn(false);
+
         Mockito.when(repository.save(savingLoan)).thenReturn(savedLoan);
 
         Loan loan = service.save(savingLoan);
@@ -57,5 +60,26 @@ public class LoanServiceTest {
         Assertions.assertThat(loan.getBook().getId()).isEqualTo(savedLoan.getBook().getId());
         Assertions.assertThat(loan.getCustomer()).isEqualTo(savedLoan.getCustomer());
         Assertions.assertThat(loan.getLoanDate()).isEqualTo(savedLoan.getLoanDate());
+    }
+
+    @Test
+    @DisplayName("Deve lançar um erro de negogio ao salvar um emprestimo com um livro ja emprestado")
+    public void loanedBookSaveTest(){
+
+        Book book = Book.builder().id(1L).build();
+        Loan savingLoan = Loan.builder()
+                .book(book)
+                .customer("Fulano")
+                .loanDate(LocalDate.now())
+                .build();
+
+        Mockito.when(repository.existsByBookAndNotReturned(book)).thenReturn(true);
+
+        Throwable exception = Assertions.catchThrowable(() -> service.save(savingLoan));
+
+        Assertions.assertThat(exception).isInstanceOf(BusimessException.class).hasMessage("Book already loaned");
+
+        Mockito.verify(repository, Mockito.never()).save(savingLoan);
+
     }
 }

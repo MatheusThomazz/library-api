@@ -89,7 +89,7 @@ public class BookRepositoryTest {
         Assertions.assertThat(deletedBook).isNull();
     }
 
-    private Book createBook(String isbn) {
+    public static Book createBook(String isbn) {
         return Book.builder().isbn(isbn).author("Fulano").title("As aventuras").build();
     }
 
