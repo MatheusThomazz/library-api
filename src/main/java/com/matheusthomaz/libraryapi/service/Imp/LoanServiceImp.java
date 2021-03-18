@@ -1,9 +1,12 @@
 package com.matheusthomaz.libraryapi.service.Imp;
 
+import com.matheusthomaz.libraryapi.api.dto.LoanFilterDTO;
 import com.matheusthomaz.libraryapi.exception.BusimessException;
 import com.matheusthomaz.libraryapi.model.entity.Loan;
 import com.matheusthomaz.libraryapi.model.repository.LoanRepository;
 import com.matheusthomaz.libraryapi.service.LoanService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.Optional;
 
@@ -25,11 +28,16 @@ public class LoanServiceImp implements LoanService {
 
     @Override
     public Optional<Loan> getById(Long id) {
-        return Optional.empty();
+        return repository.findById(id);
     }
 
     @Override
     public Loan update(Loan loan) {
+        return repository.save(loan);
+    }
+
+    @Override
+    public Page<Loan> find(LoanFilterDTO filter, Pageable pageable) {
         return null;
     }
 }

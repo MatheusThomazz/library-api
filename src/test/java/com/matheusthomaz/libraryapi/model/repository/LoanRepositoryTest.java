@@ -38,8 +38,6 @@ public class LoanRepositoryTest {
 
         entityManager.persist(loan);
 
-        repository.existsByBookAndNotReturned(book);
-
         boolean exists = repository.existsByBookAndNotReturned(book);
 
         Assertions.assertThat(exists).isTrue();
