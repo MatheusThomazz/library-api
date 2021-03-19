@@ -9,6 +9,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
@@ -31,6 +33,30 @@ public class LoanRepositoryTest {
     @DisplayName("Deve verificar se existe emprestimo não devolvido para um livro.")
     public void existsByBookAndNotReturnedTest(){
 
+        Loan loan = createAndPersistLoan();
+        Book book = loan.getBook();
+
+        boolean exists = repository.existsByBookAndNotReturned(book);
+
+        Assertions.assertThat(exists).isTrue();
+
+    }
+
+    @Test
+    @DisplayName("Deve buscar emprestimo pelo isbn do livro ou customer")
+    public void findBookIsbnCustomerTest(){
+        createAndPersistLoan();
+
+        Page<Loan> result = repository.findByBookIsbnOrCustomer("123", "fulano", PageRequest.of(0, 10));
+
+        Assertions.assertThat(result.getContent()).hasSize(1);
+        Assertions.assertThat(result.getPageable().getPageSize()).isEqualTo(10);
+        Assertions.assertThat(result.getPageable().getPageNumber()).isEqualTo(0);
+        Assertions.assertThat(result.getTotalElements()).isEqualTo(1);
+
+    }
+
+    public Loan createAndPersistLoan(){
         Book book = createBook("123");
         entityManager.persist(book);
 
@@ -38,9 +64,6 @@ public class LoanRepositoryTest {
 
         entityManager.persist(loan);
 
-        boolean exists = repository.existsByBookAndNotReturned(book);
-
-        Assertions.assertThat(exists).isTrue();
-
+        return loan;
     }
 }
