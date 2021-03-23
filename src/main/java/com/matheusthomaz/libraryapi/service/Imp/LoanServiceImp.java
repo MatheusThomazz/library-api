@@ -2,6 +2,7 @@ package com.matheusthomaz.libraryapi.service.Imp;
 
 import com.matheusthomaz.libraryapi.api.dto.LoanFilterDTO;
 import com.matheusthomaz.libraryapi.exception.BusimessException;
+import com.matheusthomaz.libraryapi.model.entity.Book;
 import com.matheusthomaz.libraryapi.model.entity.Loan;
 import com.matheusthomaz.libraryapi.model.repository.LoanRepository;
 import com.matheusthomaz.libraryapi.service.LoanService;
@@ -39,5 +40,10 @@ public class LoanServiceImp implements LoanService {
     @Override
     public Page<Loan> find(LoanFilterDTO filter, Pageable pageable) {
         return repository.findByBookIsbnOrCustomer(filter.getIsbn(), filter.getCustomer(), pageable);
+    }
+
+    @Override
+    public Page<Loan> getLoansByBook(Book book, Pageable pageable) {
+        return repository.findByBook(book, pageable);
     }
 }

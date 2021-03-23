@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Data
 @Builder
@@ -18,12 +19,18 @@ public class Book {
     @Id
     @Column
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private Long id
+            ;
     @Column
     private String title;
+
     @Column
     private String author;
+
     @Column
     private String isbn;
+
+    @OneToMany(mappedBy = "book")
+    private List<Loan> loans;
 
 }
