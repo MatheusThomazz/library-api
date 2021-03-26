@@ -8,16 +8,19 @@ import com.matheusthomaz.libraryapi.model.repository.LoanRepository;
 import com.matheusthomaz.libraryapi.service.LoanService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
+@Service
 public class LoanServiceImp implements LoanService {
 
     private LoanRepository repository;
 
     public LoanServiceImp(LoanRepository repository){
+
         this.repository = repository;
     }
 

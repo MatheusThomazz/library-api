@@ -6,6 +6,7 @@ import com.matheusthomaz.libraryapi.api.resource.BookController;
 import com.matheusthomaz.libraryapi.exception.BusimessException;
 import com.matheusthomaz.libraryapi.model.entity.Book;
 import com.matheusthomaz.libraryapi.service.BookService;
+import com.matheusthomaz.libraryapi.service.LoanService;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -43,6 +44,9 @@ public class BookControllerTest {
 
     @MockBean
     BookService service;
+
+    @MockBean
+    LoanService loanService;
 
     @Test
     @DisplayName("Deve criar um livro com sucesso")

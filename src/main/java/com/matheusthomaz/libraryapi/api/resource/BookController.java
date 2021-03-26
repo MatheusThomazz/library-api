@@ -21,7 +21,6 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/books")
-@ResponseStatus(HttpStatus.CREATED)
 @RequiredArgsConstructor
 public class BookController {
 
