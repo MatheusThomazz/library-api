@@ -44,7 +44,6 @@ public class BookControllerTest {
 
     @MockBean
     BookService service;
-
     @MockBean
     LoanService loanService;
 
